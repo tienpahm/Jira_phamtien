@@ -1,0 +1,20 @@
+.sideNav { 
+    background-color: #191919;
+    height: 100vh;
+    border-radius: 5px;
+    color : white
+}
+
+.sideNav_button { 
+    text-align: center;
+}
+
+.sideNav_button button {
+    background-color: transparent;
+    border: none;   
+    margin-top: 50%;
+}
+
+.sideNav_button button:focus {
+outline: none;
+}

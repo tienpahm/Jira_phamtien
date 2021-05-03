@@ -1,0 +1,230 @@
+import React, {useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {Popover, Button, AutoComplete} from "antd";
+import {Table} from "antd";
+import {
+  ASSIGN_USER_PROJECT_SAGA,
+  DELETE_PROJECT_SAGA,
+  DISPLAY_LOADING,
+  GET_ALL_PROJECT_SAGA,
+  GET_ALL_USER_SAGA,
+  GET_CATEGORY_SAGA,
+  MODAL_EDIT,
+} from "../../redux/constant/BugtifyConstant";
+import EditProjectModal from "../../Component/EditProjectModal";
+export default function ProjectManagement(props) {
+  const dispatch = useDispatch();
+  //data collect from redux
+  const {arrProject} = useSelector((state) => state.ProjectReducer);
+  const {arrUser} = useSelector((state) => state.UserReducer);
+  //control component state
+  const [value, setValue] = useState("");
+
+  //life cycle
+  useEffect(() => {
+    dispatch({
+      type: GET_ALL_PROJECT_SAGA,
+    });
+    dispatch({
+      type: GET_ALL_USER_SAGA,
+    });
+    dispatch({
+      type: DISPLAY_LOADING,
+    });
+    dispatch({
+      type: GET_CATEGORY_SAGA,
+    });
+  }, []);
+
+  const columns = [
+    {
+      title: "Id",
+      dataIndex: "id",
+    },
+    {
+      title: "Name",
+      dataIndex: "projectName",
+      // sorter: {
+      //   compare: (a, b) => a.chinese - b.chinese,
+      //   multiple: 3,
+      // },
+    },
+    {
+      title: "Category",
+      dataIndex: "categoryName",
+      // sorter: {
+      //   compare: (a, b) => a.math - b.math,
+      //   multiple: 2,
+      // },
+    },
+    {
+      title: "Creator",
+      render: (text, record, index) => {
+        return (
+          <span
+            style={{
+              padding: "5px 10px",
+              background: "#7149fc52",
+              color: "#191919",
+              borderRadius: "5px",
+              border: "1px solid #7149fc",
+              fontWeight: "500",
+            }}>
+            {" "}
+            {record.creator.name}
+          </span>
+        );
+      },
+
+      // sorter: {
+      //   compare: (a, b) => a.english - b.english,
+      //   multiple: 1,
+      // },
+    },
+    {
+      title: "Members",
+      render: (text, record, index) => {
+        return (
+          <div>
+            {record.members?.slice(0, 3).map((item, index) => {
+              return (
+                <img
+                  key={index}
+                  style={{
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "50%",
+                    marginLeft: "-5px",
+                    border: "1px solid ",
+                  }}
+                  src={item.avatar}
+                  alt="memberavatar"></img>
+              );
+            })}
+            {record.members?.length > 3 ? (
+              <span
+                style={{
+                  display: "inline-block",
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                  marginLeft: "-5px",
+                  marginBottom: "3px",
+                  border: "1px solid ",
+                  textAlign: "center",
+                  background: "#DDDDDD",
+                  transform: "translateY(-1px)",
+                }}>
+                ...
+              </span>
+            ) : (
+              ""
+            )}
+            <Popover
+              placement="topLeft"
+              title={"Available"}
+              content={
+                <AutoComplete
+                  value={value}
+                  key={index}
+                  style={{width: 200}}
+                  options={arrUser.map((item, index) => {
+                    return {label: item.name, value: item.userId.toString()};
+                  })}
+                  placeholder="Search User"
+                  // filterOption={(inputValue, option) =>
+                  //   option.value
+                  //     .toUpperCase()
+                  //     .indexOf(inputValue.toUpperCase()) !== -1
+                  // }
+                  filterOption={(inputValue, option) =>
+                    option?.label
+                      .toUpperCase()
+                      .indexOf(inputValue.toUpperCase()) !== -1
+                  }
+                  onChange={(value) => {
+                    setValue(value);
+                  }}
+                  onSelect={(value, option) => {
+                    setValue(option.label);
+                    dispatch({
+                      type: ASSIGN_USER_PROJECT_SAGA,
+                      assignUser: {
+                        userId: option.value,
+                        projectId: record.id,
+                      },
+                    });
+                  }}
+                />
+              }
+              trigger="click">
+              <button className="btn" style={{borderRadius: "50%"}}>
+                +
+              </button>
+            </Popover>
+          </div>
+        );
+      },
+    },
+    {
+      title: "Action",
+      render: (text, record, index) => {
+        return (
+          <div>
+            <button
+              className="btn"
+              onClick={() => {
+                dispatch({
+                  type: DELETE_PROJECT_SAGA,
+                  projectId: record.id,
+                });
+              }}>
+              <i className="fa fa-trash"></i>
+            </button>
+            <button
+              type="button"
+              className="btn"
+              data-toggle="modal"
+              data-target="#exampleModalLong"
+              onClick={() => {
+                dispatch({
+                  type: MODAL_EDIT,
+                  editModal: <EditProjectModal />,
+                });
+              }}>
+              <i className="fa fa-pencil-alt"></i>
+            </button>
+          </div>
+        );
+      },
+    },
+  ];
+
+  function onChange(pagination, filters, sorter, extra) {
+    console.log("params", pagination, filters, sorter, extra);
+  }
+
+  return (
+    <div>
+      {}
+      <h3 style={{color: "#191919"}}>
+        BUGTIFY
+        <span
+          style={{
+            color: "#7149fc",
+            fontSize: "2rem",
+            display: "inline-block",
+            marginLeft: "5px",
+          }}>
+          .
+        </span>
+      </h3>
+      <Table
+        columns={columns}
+        dataSource={arrProject}
+        onChange={onChange}
+        rowKey="id"
+      />
+    </div>
+  );
+}

@@ -1,0 +1,12 @@
+.modal-content {
+  height: auto;
+
+  position: relative;
+  background: url(../assets/img/backgroundImg/background5.png);
+  background-size: cover;
+  background-position: center;
+}
+.ant-table-content {
+  background: url(../assets/img/backgroundImg/background1.jpg);
+  background-size: cover;
+}
