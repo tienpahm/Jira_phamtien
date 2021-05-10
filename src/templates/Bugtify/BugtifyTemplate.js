@@ -11,7 +11,7 @@ const BugtifyTemplate = (props) => {
       render={(propsRoute) => {
         return (
           <Fragment>
-            <div className="container">
+            <div className="container-fluid">
               <div className="row">
                 <div className="col-3">
                   <div className="row">

@@ -4,7 +4,6 @@ import {useSelector} from "react-redux";
 const ModalTemplate = (props) => {
   const {Component, ...restParam} = props;
   const {functionSubmit} = useSelector((state) => state.ProjectReducer);
-  console.log(functionSubmit);
 
   return (
     <div

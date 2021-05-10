@@ -44,18 +44,10 @@ export default function ProjectManagement(props) {
     {
       title: "Name",
       dataIndex: "projectName",
-      // sorter: {
-      //   compare: (a, b) => a.chinese - b.chinese,
-      //   multiple: 3,
-      // },
     },
     {
       title: "Category",
       dataIndex: "categoryName",
-      // sorter: {
-      //   compare: (a, b) => a.math - b.math,
-      //   multiple: 2,
-      // },
     },
     {
       title: "Creator",
@@ -75,11 +67,6 @@ export default function ProjectManagement(props) {
           </span>
         );
       },
-
-      // sorter: {
-      //   compare: (a, b) => a.english - b.english,
-      //   multiple: 1,
-      // },
     },
     {
       title: "Members",
@@ -132,16 +119,6 @@ export default function ProjectManagement(props) {
                     return {label: item.name, value: item.userId.toString()};
                   })}
                   placeholder="Search User"
-                  // filterOption={(inputValue, option) =>
-                  //   option.value
-                  //     .toUpperCase()
-                  //     .indexOf(inputValue.toUpperCase()) !== -1
-                  // }
-                  filterOption={(inputValue, option) =>
-                    option?.label
-                      .toUpperCase()
-                      .indexOf(inputValue.toUpperCase()) !== -1
-                  }
                   onChange={(value) => {
                     setValue(value);
                   }}
