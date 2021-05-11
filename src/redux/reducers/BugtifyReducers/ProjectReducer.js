@@ -1,10 +1,15 @@
-import {FUNCTION_SUBMIT, GET_ALL_PROJECT} from "../../constant/BugtifyConstant";
+import {
+  EDIT_PROJECT,
+  FUNCTION_SUBMIT,
+  GET_ALL_PROJECT,
+} from "../../constant/BugtifyConstant";
 
 const initialState = {
   arrProject: [],
   functionSubmit: () => {
     alert(123);
   },
+  editProject: undefined,
 };
 
 export const ProjectReducer = (state = initialState, action) => {
@@ -13,8 +18,10 @@ export const ProjectReducer = (state = initialState, action) => {
       return {...state, arrProject: action.arrProject};
     }
     case FUNCTION_SUBMIT: {
-      console.log(123);
       return {...state, functionSubmit: action.functionSubmit};
+    }
+    case EDIT_PROJECT: {
+      return {...state, editProject: action.editProject};
     }
 
     default:

@@ -8,37 +8,41 @@ import {
   GET_CATEGORY_SAGA,
   FUNCTION_SUBMIT,
 } from "../redux/constant/BugtifyConstant";
+import {ModalHeader} from "../HOC/ModalHeader";
 
 export default function CreateProjectModal() {
   const dispatch = useDispatch();
   const {arrCategory} = useSelector((state) => state.CategoryReducer);
   //validation
   const [erros, setError] = useState("require*");
-  useEffect(() => {
-    dispatch({
-      type: FUNCTION_SUBMIT,
-      functionSubmit: handleSubmit,
-    });
-  }, []);
-  // take values from input
   const [project, setProject] = useState({
     projectName: "",
     description: "",
     categoryId: "1",
   });
+  useEffect(() => {
+    dispatch({
+      type: FUNCTION_SUBMIT,
+      functionSubmit: handleSubmit,
+    });
+  }, [project]);
+  // take values from input
 
   const handleChange = (e) => {
     let {name, value} = e.target;
+    console.log(project);
     setProject({
       ...project,
       [name]: value,
     });
   };
   const handleSubmit = (e) => {
+    console.log(project);
     e.preventDefault();
     if (!project.projectName) {
       return false;
     }
+
     dispatch({
       type: CREATE_PROJECT_SAGA,
       project: project,
@@ -47,32 +51,8 @@ export default function CreateProjectModal() {
 
   return (
     <Fragment>
-      <div class="modal-header">
-        <h3 style={{color: "#191919", marginBottom: "0"}}>
-          BUGTIFY
-          <span
-            style={{
-              color: "#7149fc",
-              fontSize: "2rem",
-              display: "inline-block",
-              marginLeft: "5px",
-            }}>
-            .
-          </span>{" "}
-          <p style={{fontSize: "1.2rem"}} className="mb-0">
-            Create Project
-          </p>
-        </h3>
-
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form onSubmit={handleSubmit} class="modal-body container">
+      <ModalHeader Component="Create Project" />
+      <form onSubmit={handleSubmit} className="modal-body container">
         <div className="form-group">
           <h6>Name</h6>
           <input
@@ -82,7 +62,7 @@ export default function CreateProjectModal() {
           <p style={{marginTop: "5px"}}>{erros}</p>
         </div>
         <h6>Description</h6>
-        {/* <Editor
+        <Editor
           name="description"
           // initialValue={values.description}
           //   value={values.description}
@@ -105,7 +85,7 @@ export default function CreateProjectModal() {
               description: content,
             });
           }}
-        /> */}
+        />
         <div className="form-group mt-2">
           <h6>Category</h6>
           <select
@@ -121,7 +101,6 @@ export default function CreateProjectModal() {
             })}
           </select>
         </div>
-        <button type="submit">submit</button>
       </form>
     </Fragment>
   );
