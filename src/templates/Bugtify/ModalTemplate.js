@@ -7,25 +7,26 @@ const ModalTemplate = (props) => {
 
   return (
     <div
-      class="modal fade bd-example-modal-lg"
+      className="modal fade bd-example-modal-lg"
       id="exampleModalLong"
-      tabindex="-1"
+      tabIndex="-1"
       role="dialog"
+      style={{marginTop: "10px"}}
       aria-labelledby="exampleModalLongTitle"
       aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+      <div className="modal-dialog modal-lg" role="document">
+        <div className="modal-content">
           <Component />
-          <div class="modal-footer">
+          <div className="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-dismiss="modal">
               Close
             </button>
             <button
               type="button"
-              class="btn btn-primary"
+              className="btn btn-primary"
               onClick={functionSubmit}>
               Submit
             </button>

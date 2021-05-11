@@ -9,16 +9,13 @@ import ProjectManagement from "./pages/ProjectManagement/ProjectManagement";
 import BugtifyTemplate from "./templates/Bugtify/BugtifyTemplate";
 import ModalTemplate from "./templates/Bugtify/ModalTemplate";
 import {useSelector} from "react-redux";
+import ProjectInfo from "./pages/ProjectInfo/ProjectInfo";
 export default function App() {
-  const {modalComponent} = useSelector((state) => state.ModalReducer);
+  const {ModalComponent} = useSelector((state) => state.ModalReducer);
 
   return (
     <div className="app">
-      <ModalTemplate
-        Component={() => {
-          return modalComponent;
-        }}
-      />
+      {ModalComponent && <ModalTemplate Component={ModalComponent} />}
 
       <LoadingPage />
       {/* A <Switch> looks through its children <Route>s and
@@ -31,6 +28,7 @@ export default function App() {
           path="/projectmanagement"
           Component={ProjectManagement}
         />
+        <BugtifyTemplate exact path="/project/:id" Component={ProjectInfo} />
       </Switch>
     </div>
   );

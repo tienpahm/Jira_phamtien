@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Popover, Button, AutoComplete} from "antd";
+import {Popover, Popconfirm, Button, AutoComplete} from "antd";
 import {Table} from "antd";
+import {Link} from "react-router-dom";
 import {
   ASSIGN_USER_PROJECT_SAGA,
   DELETE_PROJECT_SAGA,
+  DELETE_USER_PROJECT,
   DISPLAY_LOADING,
+  EDIT_PROJECT,
   GET_ALL_PROJECT_SAGA,
   GET_ALL_USER_SAGA,
   GET_CATEGORY_SAGA,
@@ -44,6 +47,15 @@ export default function ProjectManagement(props) {
     {
       title: "Name",
       dataIndex: "projectName",
+      render: (text, record, index) => {
+        return (
+          <Link
+            style={{color: "#7149fc", fontWeight: "500"}}
+            to={`/project/${record.id}`}>
+            {record.projectName}
+          </Link>
+        );
+      },
     },
     {
       title: "Category",
@@ -75,17 +87,58 @@ export default function ProjectManagement(props) {
           <div>
             {record.members?.slice(0, 3).map((item, index) => {
               return (
-                <img
+                <Popover
                   key={index}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    marginLeft: "-5px",
-                    border: "1px solid ",
-                  }}
-                  src={item.avatar}
-                  alt="memberavatar"></img>
+                  content={
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {record?.members.map((user, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{user.userId}</td>
+                              <td>{user.name}</td>
+                              <td>
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={() => {
+                                    dispatch({
+                                      type: DELETE_USER_PROJECT,
+                                      project: {
+                                        projectId: record.id,
+                                        userId: user.userId,
+                                      },
+                                    });
+                                  }}>
+                                  X
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  }
+                  title="Title">
+                  <img
+                    key={index}
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "50%",
+                      marginLeft: "-5px",
+                      border: "1px solid ",
+                      cursor: "pointer",
+                    }}
+                    src={item.avatar}
+                    alt="memberavatar"></img>
+                </Popover>
               );
             })}
             {record.members?.length > 3 ? (
@@ -148,16 +201,20 @@ export default function ProjectManagement(props) {
       render: (text, record, index) => {
         return (
           <div>
-            <button
-              className="btn"
-              onClick={() => {
+            <Popconfirm
+              title="Are you sure to delete this task?"
+              okText="Yes"
+              onConfirm={() => {
                 dispatch({
                   type: DELETE_PROJECT_SAGA,
                   projectId: record.id,
                 });
-              }}>
-              <i className="fa fa-trash"></i>
-            </button>
+              }}
+              cancelText="No">
+              <button className="btn">
+                <i className="fa fa-trash"></i>
+              </button>
+            </Popconfirm>
             <button
               type="button"
               className="btn"
@@ -166,7 +223,11 @@ export default function ProjectManagement(props) {
               onClick={() => {
                 dispatch({
                   type: MODAL_EDIT,
-                  editModal: <EditProjectModal />,
+                  editModal: EditProjectModal,
+                });
+                dispatch({
+                  type: EDIT_PROJECT,
+                  editProject: record,
                 });
               }}>
               <i className="fa fa-pencil-alt"></i>

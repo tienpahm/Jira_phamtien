@@ -17,6 +17,12 @@ class ProjectServices extends baseService {
   createProject = (project) => {
     return this.post(`Project/createProjectAuthorize`, project);
   };
+  deleteUserProject = (project) => {
+    return this.post(`Project/removeUserFromProject`, project);
+  };
+  updateProject = (project) => {
+    return this.put(`Project/updateProject?projectId=${project.id}`, project);
+  };
 }
 
 export const projectService = new ProjectServices();

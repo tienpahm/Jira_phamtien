@@ -42,7 +42,7 @@ export default function SideMenu() {
               onClick={() => {
                 dispatch({
                   type: MODAL_CREATE,
-                  createModal: <CreateProjectModal />,
+                  createModal: CreateProjectModal,
                 });
               }}>
               Create Project

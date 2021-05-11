@@ -6,11 +6,14 @@ import {
   ASSIGN_USER_PROJECT_SAGA,
   CREATE_PROJECT_SAGA,
   DELETE_PROJECT_SAGA,
+  DELETE_USER_PROJECT,
   DISPLAY_LOADING,
   GET_ALL_PROJECT,
   GET_ALL_PROJECT_SAGA,
   HIDE_LOADING,
+  UPDATE_PROJECT_SAGA,
 } from "../../constant/BugtifyConstant";
+import {message} from "antd";
 
 //fetch project list
 function* getAllProjectSaga(action) {
@@ -53,10 +56,11 @@ function* assignUserProjectSaga(action) {
       yield put({
         type: GET_ALL_PROJECT_SAGA,
       });
-      notifiFuncion("success", "Successfully Assign User for Project");
+
+      message.success("Successfully Assign User for Project");
     }
   } catch (err) {
-    notifiFuncion("error", "Fail to Assign this User ");
+    message.error(`${err.response.data.content}`);
   }
 }
 
@@ -75,10 +79,12 @@ function* deleteProjectSaga(action) {
       yield put({
         type: GET_ALL_PROJECT_SAGA,
       });
-      notifiFuncion("success", "Successfully Delete Project");
+
+      message.success("Successfully Delete Project");
     }
   } catch (err) {
-    notifiFuncion("error", "Fail to Delete Project ");
+    // notifiFuncion("error", "Fail to Delete Project ");
+    message.error(`${err.response.data.content}`);
   }
 }
 
@@ -97,13 +103,58 @@ function* createProjectSaga(action) {
       yield put({
         type: GET_ALL_PROJECT_SAGA,
       });
-      notifiFuncion("success", "Successfully Create Project");
+
+      message.success("Successfully Create Project");
     }
   } catch (err) {
-    notifiFuncion("error", `${err.response.data.content}`);
+    message.error(`${err.response.data.content}`);
   }
 }
 
 export function* monitorCreateProjectSaga() {
   yield takeLatest(CREATE_PROJECT_SAGA, createProjectSaga);
+}
+
+function* removeUserProjectSaga(action) {
+  try {
+    const {data, status} = yield call(() => {
+      return projectService.deleteUserProject(action.project);
+    });
+    console.log(data);
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_ALL_PROJECT_SAGA,
+      });
+
+      message.success("Successfully Remove User Project");
+    }
+  } catch (err) {
+    message.error(`${err.response.data.content}`);
+  }
+}
+
+export function* monitorRemoveUserProjectSaga() {
+  yield takeLatest(DELETE_USER_PROJECT, removeUserProjectSaga);
+}
+
+function* updateProjectSaga(action) {
+  try {
+    const {data, status} = yield call(() => {
+      return projectService.updateProject(action.project);
+    });
+    console.log(data);
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_ALL_PROJECT_SAGA,
+      });
+
+      message.success("Successfully Update User Project");
+    }
+  } catch (err) {
+    message.error(`${err.response.data.content}`);
+  }
+}
+
+export function* monitorUpdateProjectSaga() {
+  yield takeLatest(UPDATE_PROJECT_SAGA, updateProjectSaga);
 }

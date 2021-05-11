@@ -13,6 +13,8 @@ export function* rootSaga() {
     ProjectSaga.monitorAssignUserProjectSaga(),
     ProjectSaga.monitorDeleteProjectSaga(),
     ProjectSaga.monitorCreateProjectSaga(),
+    ProjectSaga.monitorRemoveUserProjectSaga(),
+    ProjectSaga.monitorUpdateProjectSaga(),
     //Monitor user
     UserSaga.monitorGetAllUserSaga(),
     //Monitor get category
