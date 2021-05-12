@@ -1,10 +1,12 @@
 import React, {Fragment, useEffect} from "react";
 import {ModalHeader} from "../../HOC/ModalHeader";
 import {useDispatch, useSelector} from "react-redux";
+import ReactHtmlParser from "react-html-parser";
 import "./ProjectInfo.css";
 import {
   GET_PROJECT_DETAIL_SAGA,
   GET_STATUS_LIST_SAGA,
+  REMOVE_TASK_SAGA,
 } from "../../redux/constant/BugtifyConstant";
 
 export default function ProjectInfo(props) {
@@ -22,7 +24,6 @@ export default function ProjectInfo(props) {
   const {targetProject} = useSelector((state) => state.ProjectReducer);
   const {arrStatus} = useSelector((state) => state.TaskReducer);
   console.log("project ", targetProject);
-  console.log("arrStatus", arrStatus);
 
   return (
     <div className="projectInfo">
@@ -30,6 +31,13 @@ export default function ProjectInfo(props) {
         <ModalHeader
           Component={`Project Name : ${targetProject?.projectName}`}
         />
+        <div className="projectInfo_description p-2">
+          <span>
+            <i className="fa fa-hand-holding mr-2"></i>Description :{" "}
+          </span>{" "}
+          {ReactHtmlParser(targetProject?.description)}
+        </div>
+        <hr />
         <div className="task_member m-3">
           <div className="mr-3">
             <i className="fa fa-user mr-2"></i>Members :
@@ -54,7 +62,7 @@ export default function ProjectInfo(props) {
         <div className="task_content row">
           {arrStatus?.map((status, index) => {
             return (
-              <div className="col-3">
+              <div key={index} className="col-3">
                 <div className="task_item">
                   <div className="task_header">
                     <h6>
@@ -62,7 +70,54 @@ export default function ProjectInfo(props) {
                     </h6>
                   </div>
                   <div className="task_list">
-                    <div className="taskList_item">
+                    {targetProject?.lstTask.map((taskList, index) => {
+                      return (
+                        taskList.statusId === status.statusId &&
+                        taskList.lstTaskDeTail.map((task, index) => {
+                          return (
+                            <div key={index} className="taskList_item">
+                              <div className="item-header font-weight-bold">
+                                {task.taskName}
+                              </div>
+                              <div className="item-content">
+                                {ReactHtmlParser(task.description)}
+                              </div>
+                              <div className="item-footer">
+                                <div>
+                                  {" "}
+                                  <i
+                                    className="fa fa-dumpster"
+                                    onClick={() => {
+                                      dispatch({
+                                        type: REMOVE_TASK_SAGA,
+                                        taskId: task.taskId,
+                                      });
+                                    }}></i>{" "}
+                                  <i className="fa fa-pen-square"></i>{" "}
+                                </div>
+                                <div>
+                                  {" "}
+                                  {task.assigness?.map((user, index) => {
+                                    return (
+                                      <img
+                                        key={index}
+                                        src={user.avatar}
+                                        alt=""
+                                        style={{
+                                          width: "25px",
+                                          borderRadius: "50%",
+                                        }}
+                                      />
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      );
+                    })}
+                    {/* <div className="taskList_item">
                       <div className="item-content">Content</div>
                       <div className="item-footer">
                         <div>
@@ -75,10 +130,7 @@ export default function ProjectInfo(props) {
                           <i className="fa fa-user mr-2"></i>
                         </div>
                       </div>
-                    </div>
-                    <div className="taskList_item">123</div>
-                    <div className="taskList_item">123</div>
-                    <div className="taskList_item">123</div>
+                    </div> */}
                   </div>
                 </div>{" "}
               </div>

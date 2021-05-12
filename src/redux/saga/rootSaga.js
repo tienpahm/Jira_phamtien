@@ -23,5 +23,9 @@ export function* rootSaga() {
     CategorySaga.monitorGetCategorySaga(),
     //Monitor Task
     TaskSaga.monitorGetStatusList(),
+    TaskSaga.monitorGetTaskTypeList(),
+    TaskSaga.monitorGetPriority(),
+    TaskSaga.monitorCreateTaskSaga(),
+    TaskSaga.monitorRemoveTaskSaga(),
   ]);
 }

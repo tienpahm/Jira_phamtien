@@ -11,5 +11,17 @@ class TaskService extends baseService {
   getStatusList = () => {
     return this.get(`Status/getAll`);
   };
+  getTaskTypeList = () => {
+    return this.get(`TaskType/getAll`);
+  };
+  getPriorityList = () => {
+    return this.get(`Priority/getAll?id=0`);
+  };
+  createTask = (project) => {
+    return this.post(`Project/createTask`, project);
+  };
+  removeTask = (taskId) => {
+    return this.delete(`Project/removeTask?taskId=${taskId}`);
+  };
 }
 export const taskService = new TaskService();
