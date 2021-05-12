@@ -1,6 +1,7 @@
 import {
   GET_PRIORITY_LIST,
   GET_STATUS_LIST,
+  GET_TASK_DETAIL,
   GET_TASK_TYPE,
 } from "../../constant/BugtifyConstant";
 
@@ -8,6 +9,7 @@ const initialState = {
   arrStatus: [],
   arrTaskType: [],
   arrPriority: [],
+  targetTask: undefined,
 };
 
 export const TaskReducer = (state = initialState, action) => {
@@ -20,6 +22,9 @@ export const TaskReducer = (state = initialState, action) => {
     }
     case GET_PRIORITY_LIST: {
       return {...state, arrPriority: action.arrPriority};
+    }
+    case GET_TASK_DETAIL: {
+      return {...state, targetTask: action.targetTask};
     }
     default:
       return state;

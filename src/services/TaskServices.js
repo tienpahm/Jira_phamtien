@@ -23,5 +23,8 @@ class TaskService extends baseService {
   removeTask = (taskId) => {
     return this.delete(`Project/removeTask?taskId=${taskId}`);
   };
+  getTaskDetail = (taskId) => {
+    return this.get(`Project/getTaskDetail?taskId=${taskId}`);
+  };
 }
 export const taskService = new TaskService();

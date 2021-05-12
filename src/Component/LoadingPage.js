@@ -11,7 +11,7 @@ export default function LoadingPage() {
             position: "absolute",
             top: "0",
             left: " 0",
-            zIndex: "2",
+            zIndex: "2000",
             width: "99vw",
             height: "100vh",
           }}

@@ -11,6 +11,8 @@ import {
   GET_PROJECT_DETAIL_SAGA,
   GET_STATUS_LIST,
   GET_STATUS_LIST_SAGA,
+  GET_TASK_DETAIL,
+  GET_TASK_DETAIL_SAGA,
   GET_TASK_TYPE,
   GET_TASK_TYPE_SAGA,
   HIDE_LOADING,
@@ -127,4 +129,33 @@ function* removeTaskSaga(action) {
 }
 export function* monitorRemoveTaskSaga() {
   yield takeLatest(REMOVE_TASK_SAGA, removeTaskSaga);
+}
+
+function* getTaskDetailSaga(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+
+    const {data, status} = yield call(() => {
+      return taskService.getTaskDetail(action.taskId);
+    });
+    console.log("task", data);
+
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_TASK_DETAIL,
+        targetTask: data.content,
+      });
+    }
+
+    yield put({
+      type: HIDE_LOADING,
+    });
+  } catch (err) {
+    message.error(`${err.response.data.content}`);
+  }
+}
+export function* monitorGetTaskDetailSaga() {
+  yield takeLatest(GET_TASK_DETAIL_SAGA, getTaskDetailSaga);
 }

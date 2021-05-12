@@ -6,8 +6,11 @@ import "./ProjectInfo.css";
 import {
   GET_PROJECT_DETAIL_SAGA,
   GET_STATUS_LIST_SAGA,
+  GET_TASK_DETAIL_SAGA,
+  MODAL_EDIT,
   REMOVE_TASK_SAGA,
 } from "../../redux/constant/BugtifyConstant";
+import EditTaskModal from "../../Component/TaskModal/EditTaskModal";
 
 export default function ProjectInfo(props) {
   const dispatch = useDispatch();
@@ -93,7 +96,20 @@ export default function ProjectInfo(props) {
                                         taskId: task.taskId,
                                       });
                                     }}></i>{" "}
-                                  <i className="fa fa-pen-square"></i>{" "}
+                                  <i
+                                    className="fa fa-pen-square"
+                                    data-toggle="modal"
+                                    data-target="#exampleModalLong"
+                                    onClick={() => {
+                                      dispatch({
+                                        type: MODAL_EDIT,
+                                        editModal: EditTaskModal,
+                                      });
+                                      dispatch({
+                                        type: GET_TASK_DETAIL_SAGA,
+                                        taskId: task.taskId,
+                                      });
+                                    }}></i>{" "}
                                 </div>
                                 <div>
                                   {" "}

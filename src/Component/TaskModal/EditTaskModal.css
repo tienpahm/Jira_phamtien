@@ -1,0 +1,15 @@
+.editTask_taskName {
+  font-size: 1.5rem;
+  font-weight: 500;
+  background-color: #1919196b;
+}
+.editTask_description > div {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.editTask_content .title {
+  font-weight: 500;
+  display: inline-block;
+  margin: 10px 0 5px;
+}
