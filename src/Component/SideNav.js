@@ -8,6 +8,7 @@ export default function SideNav() {
         <button>
           <i className="fa fa-plus"></i>
         </button>
+        <div className="sideNav_tooltip">Create Task</div>
       </div>
     </div>
   );

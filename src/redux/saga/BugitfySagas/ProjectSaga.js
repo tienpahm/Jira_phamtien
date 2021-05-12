@@ -10,10 +10,13 @@ import {
   DISPLAY_LOADING,
   GET_ALL_PROJECT,
   GET_ALL_PROJECT_SAGA,
+  GET_PROJECT_DETAIL,
+  GET_PROJECT_DETAIL_SAGA,
   HIDE_LOADING,
   UPDATE_PROJECT_SAGA,
 } from "../../constant/BugtifyConstant";
 import {message} from "antd";
+import {taskService} from "../../../services/TaskServices";
 
 //fetch project list
 function* getAllProjectSaga(action) {
@@ -157,4 +160,25 @@ function* updateProjectSaga(action) {
 
 export function* monitorUpdateProjectSaga() {
   yield takeLatest(UPDATE_PROJECT_SAGA, updateProjectSaga);
+}
+
+function* getProjectDetail(action) {
+  try {
+    const {data, status} = yield call(() => {
+      return taskService.getProjectDetail(action.id);
+    });
+    console.log(data);
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_PROJECT_DETAIL,
+        targetProject: data.content,
+      });
+    }
+  } catch (err) {
+    message.error(`${err.response.data.content}`);
+  }
+}
+
+export function* monitorGetProjectDetailSaga() {
+  yield takeLatest(GET_PROJECT_DETAIL_SAGA, getProjectDetail);
 }

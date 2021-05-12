@@ -6,29 +6,98 @@
 }
 
 .projectInfo_content {
-  width: 80%;
+  width: 90%;
+  height: 90%;
   background-color: white;
   border-radius: 10px;
   padding-bottom: 50px;
+  padding: 0 10px 50px;
 }
 .projectInfo_content .modal-header button {
   display: none;
 }
+.projectInfo_content .task_member {
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
 
+.projectInfo_content .task_member img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: -5px;
+  border: 1px solid #d5d3da;
+  transition: 0.5s;
+}
+.projectInfo_content .task_member img:hover {
+  transform: translateY(-10px);
+}
+.projectInfo_content .task_member .user_content:hover .user_tooltip {
+  opacity: 1;
+}
+.projectInfo_content .task_member .user_content {
+  position: relative;
+}
+.projectInfo_content .task_member .user_tooltip {
+  width: 200px;
+  padding: 10px;
+  font-weight: normal;
+  color: white;
+  background-color: #191919;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 100%;
+  left: -20%;
+  font-size: 1rem;
+  opacity: 0;
+  transition: 0.5s;
+}
+.projectInfo_content .task_member .user_tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 15%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #191919 transparent transparent transparent;
+}
 .task_item {
   border: 1px solid #d5d3da;
   padding: 10px;
-  /* height: 300px; */
+  border-radius: 5px;
   box-shadow: 0 7px 40px #7149fc12;
 }
 .task_item .task_header {
   border-bottom: 1px solid #d5d3da;
 }
+.task_item .task_header h6 span {
+  color: #7149fc;
+  font-size: 1.5rem;
+}
+
 .task_list {
   /* padding: 5px; */
 }
 .task_list .taskList_item {
-  padding: 10px 0;
+  padding: 10px;
   border: 1px solid #d5d3da;
   margin: 10px 0;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+.task_list .taskList_item:hover {
+  background-color: #d5d3da;
+}
+.task_list .taskList_item .item-footer {
+  display: flex;
+  justify-content: space-between;
 }

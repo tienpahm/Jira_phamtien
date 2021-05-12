@@ -2,6 +2,7 @@ import {
   EDIT_PROJECT,
   FUNCTION_SUBMIT,
   GET_ALL_PROJECT,
+  GET_PROJECT_DETAIL,
 } from "../../constant/BugtifyConstant";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
     alert(123);
   },
   editProject: undefined,
+  targetProject: undefined,
 };
 
 export const ProjectReducer = (state = initialState, action) => {
@@ -22,6 +24,9 @@ export const ProjectReducer = (state = initialState, action) => {
     }
     case EDIT_PROJECT: {
       return {...state, editProject: action.editProject};
+    }
+    case GET_PROJECT_DETAIL: {
+      return {...state, targetProject: action.targetProject};
     }
 
     default:
