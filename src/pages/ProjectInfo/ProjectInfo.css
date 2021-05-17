@@ -104,7 +104,7 @@
   padding: 10px;
   border: 1px solid #d5d3da;
   margin: 10px 0;
-  height: 100px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -118,4 +118,7 @@
 .task_list .taskList_item .item-footer {
   display: flex;
   justify-content: space-between;
+}
+.task_list .taskList_item .item-content {
+  overflow: hidden;
 }

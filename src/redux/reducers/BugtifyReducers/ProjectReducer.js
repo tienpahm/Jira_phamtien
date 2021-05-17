@@ -3,6 +3,7 @@ import {
   FUNCTION_SUBMIT,
   GET_ALL_PROJECT,
   GET_PROJECT_DETAIL,
+  UPDATE_ASIGNESS_LIST,
 } from "../../constant/BugtifyConstant";
 
 const initialState = {

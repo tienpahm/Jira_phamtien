@@ -1,8 +1,11 @@
 import {
+  GET_ALL_COMMENT,
   GET_PRIORITY_LIST,
   GET_STATUS_LIST,
   GET_TASK_DETAIL,
   GET_TASK_TYPE,
+  REMOVE_USER_FROM_TASK,
+  UPDATE_ASIGNESS_LIST,
 } from "../../constant/BugtifyConstant";
 
 const initialState = {
@@ -10,6 +13,7 @@ const initialState = {
   arrTaskType: [],
   arrPriority: [],
   targetTask: undefined,
+  listTaskComment: [],
 };
 
 export const TaskReducer = (state = initialState, action) => {
@@ -26,6 +30,23 @@ export const TaskReducer = (state = initialState, action) => {
     case GET_TASK_DETAIL: {
       return {...state, targetTask: action.targetTask};
     }
+    case UPDATE_ASIGNESS_LIST: {
+      return {...state, targetTask: action.targetProjectListUpdate};
+    }
+    case REMOVE_USER_FROM_TASK: {
+      let updateAsignessList = state.targetTask.assigness.filter(
+        (item) => item.id !== action.userId
+      );
+
+      return {
+        ...state,
+        targetTask: {...state.targetTask, assigness: updateAsignessList},
+      };
+    }
+    case GET_ALL_COMMENT: {
+      return {...state, listTaskComment: action.listComment};
+    }
+
     default:
       return state;
   }

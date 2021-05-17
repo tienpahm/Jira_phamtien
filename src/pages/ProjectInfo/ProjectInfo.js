@@ -28,6 +28,22 @@ export default function ProjectInfo(props) {
   const {arrStatus} = useSelector((state) => state.TaskReducer);
   console.log("project ", targetProject);
 
+  //render priority
+  const renderPriority = (task) => {
+    let color = "";
+    const {priority, priorityId} = task.priorityTask;
+    if (priorityId === 1) {
+      color = "text-danger";
+    } else if (priorityId === 2) {
+      color = "text-warning";
+    } else if (priorityId === 3) {
+      color = "text-success";
+    } else {
+      color = "text-dark";
+    }
+    return <div className={color}>{priority}</div>;
+  };
+
   return (
     <div className="projectInfo">
       <div className="projectInfo_content">
@@ -79,8 +95,11 @@ export default function ProjectInfo(props) {
                         taskList.lstTaskDeTail.map((task, index) => {
                           return (
                             <div key={index} className="taskList_item">
-                              <div className="item-header font-weight-bold">
-                                {task.taskName}
+                              <div className="d-flex justify-content-between">
+                                <div className="item-header font-weight-bold">
+                                  {task.taskName}
+                                </div>
+                                {renderPriority(task)}
                               </div>
                               <div className="item-content">
                                 {ReactHtmlParser(task.description)}

@@ -28,5 +28,10 @@ export function* rootSaga() {
     TaskSaga.monitorCreateTaskSaga(),
     TaskSaga.monitorRemoveTaskSaga(),
     TaskSaga.monitorGetTaskDetailSaga(),
+    TaskSaga.monitorUpdateTaskDetailSaga(),
+    TaskSaga.monitorRemoveUserFromTaskSaga(),
+    TaskSaga.monitorGetAllComment(),
+    TaskSaga.monitorInsertComment(),
+    TaskSaga.monitorDeleteCommentSaga(),
   ]);
 }
