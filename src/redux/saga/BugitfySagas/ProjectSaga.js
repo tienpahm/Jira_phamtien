@@ -21,10 +21,6 @@ import {taskService} from "../../../services/TaskServices";
 //fetch project list
 function* getAllProjectSaga(action) {
   try {
-    yield put({
-      type: DISPLAY_LOADING,
-    });
-    yield delay(100);
     const {data, status} = yield call(() => {
       return projectService.getAllProject();
     });
@@ -34,10 +30,6 @@ function* getAllProjectSaga(action) {
         arrProject: data.content,
       });
     }
-
-    yield put({
-      type: HIDE_LOADING,
-    });
   } catch (err) {}
 }
 

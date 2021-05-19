@@ -10,6 +10,7 @@ import {
   EDIT_USER_SAGA,
   TRIGGER_CREATE_TASK,
 } from "../../redux/constant/BugtifyConstant";
+import {message} from "antd";
 
 function UserSetting(props) {
   const {values, touched, errors, handleChange, handleSubmit, setFieldTouched} =
@@ -27,6 +28,7 @@ function UserSetting(props) {
       trigger: false,
     });
   }, []);
+
   return (
     <div className="user-settings">
       <div className="user-settings-content row">
@@ -137,7 +139,7 @@ function UserSetting(props) {
                     handleChange(e);
                   }}
                   name="passWord"
-                  placeholder="New Password"
+                  placeholder="Enter Password To Confirm"
                   type="password"></input>
                 <div
                   style={{
@@ -151,7 +153,7 @@ function UserSetting(props) {
                   {touched.passWord && errors.passWord}
                 </div>
               </div>
-              <div>
+              {/* <div>
                 <i className="fa fa-lock text-danger"></i>{" "}
                 <input
                   onChange={(e) => {
@@ -172,7 +174,7 @@ function UserSetting(props) {
                   className="errors_password">
                   {touched.confirmPassword && errors.confirmPassword}
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="login_content_right_button text-center">
@@ -193,7 +195,7 @@ const EditUserPages = withFormik({
     return {
       id: currentUser?.id,
       email: currentUser?.email,
-      passWord: "",
+      passWord: currentUser?.passWord,
       name: currentUser?.name,
       phoneNumber: currentUser?.phoneNumber,
       confirmPassword: "",
@@ -222,11 +224,15 @@ const EditUserPages = withFormik({
       .required("Required"),
   }),
   handleSubmit: (values, {props, setSubmitting}) => {
-    props.dispatch({
-      type: EDIT_USER_SAGA,
-      user: values,
-      flag: true,
-    });
+    if (values.passWord === props.currentUser.passWord) {
+      props.dispatch({
+        type: EDIT_USER_SAGA,
+        user: values,
+        flag: true,
+      });
+    } else {
+      message.error("Wrong Password");
+    }
   },
 
   displayName: "SignUpForm",

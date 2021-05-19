@@ -33,9 +33,7 @@ export default function ProjectManagement(props) {
     dispatch({
       type: GET_ALL_USER_SAGA,
     });
-    dispatch({
-      type: DISPLAY_LOADING,
-    });
+
     dispatch({
       type: GET_CATEGORY_SAGA,
     });
@@ -267,6 +265,11 @@ export default function ProjectManagement(props) {
           .
         </span>
       </h3>
+      <div style={{margin: "20px 10px"}}>
+        {" "}
+        <span style={{fontWeight: "bold"}}>Protip</span> : You only allow to
+        make change on your project
+      </div>
       <Table
         columns={columns}
         dataSource={arrProject}
