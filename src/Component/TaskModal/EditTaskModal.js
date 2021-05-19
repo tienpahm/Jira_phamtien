@@ -13,6 +13,7 @@ import {
   INSERT_COMMENT_SAGA,
   REMOVE_USER_FROM_TASK,
   UPDATE_ASIGNESS_LIST,
+  UPDATE_COMMENT_SAGA,
   UPDATE_TASK_SAGA,
 } from "../../redux/constant/BugtifyConstant";
 import "./EditTaskModal.css";
@@ -21,6 +22,7 @@ import {withFormik} from "formik";
 import {connect} from "react-redux";
 import * as Yup from "yup";
 import {Select} from "antd";
+import {Fragment} from "react";
 
 function EditTaskModal(props) {
   //with formik props
@@ -61,10 +63,10 @@ function EditTaskModal(props) {
 
   //set show up text area effect
   const [commentId, setCommentId] = useState("");
-  const [visibleEditComment, setvisibleEditComment] = useState(false);
+  const [visibleComment, setvisibleComment] = useState(false);
   const [visibleEditor, setvisibleEditor] = useState(false);
   const [visibleAssignees, setVisibaleAsignees] = useState(false);
-  console.log(commentId);
+
   return (
     <form onSubmit={handleSubmit}>
       <ModalHeader Component={`Edit Task : ID ${targetTask?.taskId}`} />
@@ -155,39 +157,58 @@ function EditTaskModal(props) {
                   {targetProject.creator.name.toUpperCase()}
                 </div>
                 <div className="col-11">
-                  <Input.TextArea
-                    onChange={handleChange}
-                    name="comment"
-                    value={values.comment}
-                    placeholder="Add comment"
-                    row={4}
-                  />
-                  <div className="comment_button">
-                    <button
-                      type="button"
-                      className="btn-save"
+                  {visibleComment ? (
+                    <Fragment>
+                      {" "}
+                      <Input.TextArea
+                        className="inputComment"
+                        onChange={handleChange}
+                        name="comment"
+                        value={values.comment}
+                        placeholder="Add comment"
+                        row={4}
+                      />
+                      <div className="comment_button">
+                        <button
+                          type="button"
+                          className="btn-save"
+                          onClick={() => {
+                            dispatch({
+                              type: INSERT_COMMENT_SAGA,
+                              comment: {
+                                contentComment: values.comment,
+                                taskId: targetTask?.taskId,
+                              },
+                            });
+                            setFieldValue("comment", "");
+                          }}>
+                          Save
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-cancel"
+                          onClick={() => {
+                            setvisibleComment(false);
+                          }}>
+                          Cancel
+                        </button>
+                      </div>
+                    </Fragment>
+                  ) : (
+                    <div
+                      className="comment-placeholder"
                       onClick={() => {
-                        dispatch({
-                          type: INSERT_COMMENT_SAGA,
-                          comment: {
-                            contentComment: values.comment,
-                            taskId: targetTask?.taskId,
-                          },
-                        });
-                        setFieldValue("comment", "");
+                        setvisibleComment(true);
                       }}>
-                      Save
-                    </button>
-                    <button type="button" className="btn-cancel">
-                      Cancel
-                    </button>
-                  </div>
+                      Add a comment ..
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
             <div className="comment-block">
               {listTaskComment?.map((item, index) => {
-                return !(visibleEditComment && item.id == commentId) ? (
+                return !(item.id == commentId) ? (
                   <div key={index} className="comment_content">
                     <div className="row">
                       <div className="col-1">
@@ -229,8 +250,10 @@ function EditTaskModal(props) {
                                     setCommentId(
                                       e.currentTarget.getAttribute("id")
                                     );
-
-                                    setvisibleEditComment(true);
+                                    setFieldValue(
+                                      "commentEdit",
+                                      item.contentComment
+                                    );
                                   }}>
                                   <i className="fa fa-edit"></i>
                                 </button>
@@ -242,7 +265,48 @@ function EditTaskModal(props) {
                     </div>{" "}
                   </div>
                 ) : (
-                  <div>123</div>
+                  <div key={index} className="row my-2 ml-1">
+                    <div className="col-1 font-weight-bold">
+                      {targetProject.creator.name.toUpperCase()}
+                    </div>
+                    <div className="col-11">
+                      <Input.TextArea
+                        onChange={handleChange}
+                        name="commentEdit"
+                        value={values.commentEdit}
+                        placeholder="Add comment"
+                        row={4}
+                      />
+                      <div className="comment_button">
+                        <button
+                          type="button"
+                          className="btn-save"
+                          onClick={() => {
+                            dispatch({
+                              type: UPDATE_COMMENT_SAGA,
+                              comment: {
+                                contentComment: values.commentEdit,
+                                taskId: targetTask?.taskId,
+                                commentId: item.id,
+                              },
+                            });
+                            setFieldValue("commentEdit", "");
+                            setCommentId("");
+                          }}>
+                          Save
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-cancel"
+                          onClick={() => {
+                            setCommentId("");
+                            setFieldValue("commentEdit", "");
+                          }}>
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
             </div>
@@ -270,25 +334,6 @@ function EditTaskModal(props) {
             <div className="title">ASSIGNEES</div>
             <div>
               <div>
-                {/* {targetProject?.members
-                  .filter((mem) => {
-                    let index = values.listUserAsign?.findIndex(
-                      (user) => user === mem.userId
-                    );
-                    if (index !== -1) {
-                      return true;
-                    }
-                    return false;
-                  })
-                  .map((user, index) => {
-                    return (
-                      <div key={index} className="assignees_avatar">
-                        <img src={user.avatar} alt="" />{" "}
-                        <span style={{fontSize: "0.8rem"}}>{user.name}</span>
-                        <button>x</button>
-                      </div>
-                    );
-                  })} */}
                 {targetTask?.assigness.map((user, index) => {
                   return (
                     <div key={index} className="assignees_avatar">
@@ -424,6 +469,7 @@ const EditTaskForm = withFormik({
         return user.id;
       }),
       comment: "",
+      commentEdit: "",
       taskId: targetTask?.taskId,
       taskName: targetTask?.taskName,
       description: targetTask?.description,
@@ -447,7 +493,6 @@ const EditTaskForm = withFormik({
   }),
 
   handleSubmit: (values, {props, setSubmitting, setValues}) => {
-    console.log("values", values);
     props.dispatch({
       type: UPDATE_TASK_SAGA,
       taskUpdate: values,

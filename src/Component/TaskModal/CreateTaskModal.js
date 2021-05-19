@@ -243,7 +243,6 @@ const CreateTaskForm = withFormik({
   }),
 
   handleSubmit: (values, {props, setSubmitting, setValues}) => {
-    console.log("values", values);
     props.dispatch({
       type: CREATE_TASK_SAGA,
       project: values,

@@ -1,7 +1,7 @@
 import {call, takeLatest, delay, select, put} from "redux-saga/effects";
 import {projectService} from "../../../services/ProjectService";
 import {STATUS_CODE} from "../../../util/constant/system";
-import {notifiFuncion} from "../../../util/notification/notification";
+
 import {
   ASSIGN_USER_PROJECT_SAGA,
   CREATE_PROJECT_SAGA,
@@ -34,13 +34,11 @@ function* getAllProjectSaga(action) {
         arrProject: data.content,
       });
     }
-    console.log(data);
+
     yield put({
       type: HIDE_LOADING,
     });
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 }
 
 export function* monitorGetAllProjectsSaga() {
@@ -54,7 +52,7 @@ function* assignUserProjectSaga(action) {
     const {data, status} = yield call(() => {
       return projectService.assignUserProject(action.assignUser);
     });
-    console.log(data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_ALL_PROJECT_SAGA,
@@ -77,7 +75,7 @@ function* deleteProjectSaga(action) {
     const {data, status} = yield call(() => {
       return projectService.deleteProject(action.projectId);
     });
-    console.log(data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_ALL_PROJECT_SAGA,
@@ -101,7 +99,7 @@ function* createProjectSaga(action) {
     const {data, status} = yield call(() => {
       return projectService.createProject(action.project);
     });
-    console.log(data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_ALL_PROJECT_SAGA,
@@ -123,7 +121,7 @@ function* removeUserProjectSaga(action) {
     const {data, status} = yield call(() => {
       return projectService.deleteUserProject(action.project);
     });
-    console.log(data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_ALL_PROJECT_SAGA,
@@ -145,7 +143,7 @@ function* updateProjectSaga(action) {
     const {data, status} = yield call(() => {
       return projectService.updateProject(action.project);
     });
-    console.log(data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_ALL_PROJECT_SAGA,
@@ -167,7 +165,7 @@ function* getProjectDetail(action) {
     const {data, status} = yield call(() => {
       return taskService.getProjectDetail(action.id);
     });
-    console.log(data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_PROJECT_DETAIL,

@@ -5,6 +5,7 @@ import {
   GET_TASK_DETAIL,
   GET_TASK_TYPE,
   REMOVE_USER_FROM_TASK,
+  TRIGGER_CREATE_TASK,
   UPDATE_ASIGNESS_LIST,
 } from "../../constant/BugtifyConstant";
 
@@ -14,6 +15,7 @@ const initialState = {
   arrPriority: [],
   targetTask: undefined,
   listTaskComment: [],
+  triggerCreateTask: "false",
 };
 
 export const TaskReducer = (state = initialState, action) => {
@@ -45,6 +47,9 @@ export const TaskReducer = (state = initialState, action) => {
     }
     case GET_ALL_COMMENT: {
       return {...state, listTaskComment: action.listComment};
+    }
+    case TRIGGER_CREATE_TASK: {
+      return {...state, triggerCreateTask: action.trigger};
     }
 
     default:

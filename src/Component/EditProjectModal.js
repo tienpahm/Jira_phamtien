@@ -36,26 +36,7 @@ function EditProjectModal(props) {
       functionSubmit: handleSubmit,
     });
   }, []);
-  // const handleChange = (e) => {
-  //   let {name, value} = e.target;
-  //   console.log(project);
-  //   setProject({
-  //     ...project,
-  //     [name]: value,
-  //   });
-  // };
-  // const handleSubmit = (e) => {
-  //   console.log(project);
-  //   e.preventDefault();
-  //   if (!project.projectName) {
-  //     return false;
-  //   }
 
-  //   dispatch({
-  //     // type: CREATE_PROJECT_SAGA,
-  //     project: project,
-  //   });
-  // };
   return (
     <Fragment>
       <ModalHeader Component={`Edit Project : ID ${editProject.id}`} />

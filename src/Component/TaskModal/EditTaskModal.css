@@ -34,7 +34,8 @@
   transform: translateX(5%);
 }
 .comment-block {
-  height: 300px;
+  margin: 20px 0;
+  max-height: 200px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -95,4 +96,24 @@
   width: auto;
   height: auto;
   font-size: 0.8rem;
+}
+.comment-placeholder {
+  padding: 10px;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #949dac;
+  border-radius: 5px;
+  font-weight: 500;
+  color: #949dac;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.comment-placeholder:hover {
+  border-color: rgb(83, 83, 83);
+}
+.inputComment {
+  background-color: #f4f5f7;
+}
+.inputComment:focus {
+  background-color: #fff;
 }

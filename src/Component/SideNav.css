@@ -3,46 +3,48 @@
   height: 100vh;
   border-radius: 5px;
   color: white;
-  position: relative;
 }
 
 .sideNav_button {
   text-align: center;
+  position: relative;
 }
 
-.sideNav_button button {
+.sideNav_buttons button {
   background-color: transparent;
   border: none;
   margin-top: 50%;
 }
 
-.sideNav_button button:focus {
+.sideNav_buttons button:focus {
   outline: none;
 }
-.sideNav .sideNav_tooltip {
-  width: 120px;
+.tooltip {
+  width: auto;
+  white-space: nowrap;
   border-radius: 5px;
   padding: 10px;
   background-color: #383838d3;
   position: absolute;
-  top: 1.5%;
+  top: 30%;
   left: 77%;
   z-index: 1;
   text-align: center;
   opacity: 0;
   transition: 0.5s;
+  font-weight: 500;
 }
 
-.sideNav .sideNav_tooltip::after {
+.tooltip::after {
   content: "";
   position: absolute;
-  top: 45%;
+  top: 40%;
   right: 100%;
   border-width: 5px;
   border-style: solid;
   border-color: transparent #383838d3 transparent transparent;
 }
 
-.sideNav_button:hover .sideNav_tooltip {
+.sideNav_button:hover .tooltip {
   opacity: 1;
 }

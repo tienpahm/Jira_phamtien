@@ -1,13 +1,14 @@
 import React from "react";
 import "./login.css";
-
+import {Link} from "react-router-dom";
 import {withFormik} from "formik";
 import * as Yup from "yup";
 import {connect} from "react-redux";
 import {LOGIN_SAGA} from "../../redux/constant/BugtifyConstant";
 
 function Login(props) {
-  const {values, touched, errors, handleChange, handleSubmit} = props;
+  const {values, touched, errors, handleChange, handleSubmit, setFieldTouched} =
+    props;
   return (
     <div className="login">
       <div className="row login_content ">
@@ -21,14 +22,23 @@ function Login(props) {
             <p>
               <span>Where</span> Your Favourite List of Bug Stay{" "}
             </p>
+            <p style={{maxWidth: "50%"}}>
+              <span>BUGTIFY .</span> is a proprietary issue tracking product
+              that allows bug tracking and agile project management
+            </p>
           </div>
         </div>
         <div className="col-6 login_content_right">
+          <div className="sign_up">
+            <p>
+              New User ? <Link to="/signup">Sign up</Link>
+            </p>
+          </div>
           <form className="form-group" onSubmit={handleSubmit}>
             <div>
               <h4 className="text-center pb-2">SIGN IN</h4>
               <div className="mb-2" style={{marginLeft: "16%"}}>
-                <i class="fa fa-user"></i>{" "}
+                <i className="fa fa-user"></i>{" "}
                 <input
                   onChange={handleChange}
                   name="email"
@@ -41,7 +51,7 @@ function Login(props) {
                     fontSize: "14px",
                   }}
                   className="errors_email">
-                  {errors.email}
+                  {touched.email && errors.email}
                 </div>
               </div>
               <div style={{marginLeft: "16%"}}>
@@ -59,7 +69,7 @@ function Login(props) {
                     fontSize: "14px",
                   }}
                   className="errors_password">
-                  {errors.passWord}
+                  {touched.passWord && errors.passWord}
                 </div>
               </div>
             </div>

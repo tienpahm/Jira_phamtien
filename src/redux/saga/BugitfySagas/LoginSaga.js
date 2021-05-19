@@ -35,7 +35,6 @@ function* loginSaga(action) {
     }
   } catch (err) {
     notifiFuncion("error", "Uncorrect email or password", "Please try again");
-    console.log(err.response.message);
   }
 }
 export function* monitorLoginSaga() {

@@ -5,6 +5,7 @@ import {Table} from "antd";
 import {Link} from "react-router-dom";
 import {
   ASSIGN_USER_PROJECT_SAGA,
+  CURRENT_USER,
   DELETE_PROJECT_SAGA,
   DELETE_USER_PROJECT,
   DISPLAY_LOADING,
@@ -13,6 +14,7 @@ import {
   GET_ALL_USER_SAGA,
   GET_CATEGORY_SAGA,
   MODAL_EDIT,
+  TRIGGER_CREATE_TASK,
 } from "../../redux/constant/BugtifyConstant";
 import EditProjectModal from "../../Component/EditProjectModal";
 export default function ProjectManagement(props) {
@@ -36,6 +38,14 @@ export default function ProjectManagement(props) {
     });
     dispatch({
       type: GET_CATEGORY_SAGA,
+    });
+    dispatch({
+      type: TRIGGER_CREATE_TASK,
+      trigger: false,
+    });
+    dispatch({
+      type: CURRENT_USER,
+      currentUser: JSON.parse(localStorage.getItem("USER_LOGIN")),
     });
   }, []);
 

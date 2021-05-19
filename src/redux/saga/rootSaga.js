@@ -19,6 +19,9 @@ export function* rootSaga() {
     ProjectSaga.monitorGetProjectDetailSaga(),
     //Monitor user
     UserSaga.monitorGetAllUserSaga(),
+    UserSaga.monitorSignUpUserSaga(),
+    UserSaga.monitorEditUserSaga(),
+    UserSaga.monitorDeleteUserSaga(),
     //Monitor get category
     CategorySaga.monitorGetCategorySaga(),
     //Monitor Task
@@ -33,5 +36,7 @@ export function* rootSaga() {
     TaskSaga.monitorGetAllComment(),
     TaskSaga.monitorInsertComment(),
     TaskSaga.monitorDeleteCommentSaga(),
+    TaskSaga.monitorUpdateCommentSaga(),
+    TaskSaga.monitorUpdateTaskStatusSaga(),
   ]);
 }

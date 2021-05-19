@@ -2,6 +2,7 @@ import React, {Fragment, useEffect} from "react";
 import {ModalHeader} from "../../HOC/ModalHeader";
 import {useDispatch, useSelector} from "react-redux";
 import ReactHtmlParser from "react-html-parser";
+import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 import "./ProjectInfo.css";
 import {
   GET_PROJECT_DETAIL_SAGA,
@@ -9,6 +10,8 @@ import {
   GET_TASK_DETAIL_SAGA,
   MODAL_EDIT,
   REMOVE_TASK_SAGA,
+  TRIGGER_CREATE_TASK,
+  UPDATE_TASK_STATUS_SAGA,
 } from "../../redux/constant/BugtifyConstant";
 import EditTaskModal from "../../Component/TaskModal/EditTaskModal";
 
@@ -22,11 +25,14 @@ export default function ProjectInfo(props) {
     dispatch({
       type: GET_STATUS_LIST_SAGA,
     });
+    dispatch({
+      type: TRIGGER_CREATE_TASK,
+      trigger: true,
+    });
   }, []);
   //get value from redux
   const {targetProject} = useSelector((state) => state.ProjectReducer);
   const {arrStatus} = useSelector((state) => state.TaskReducer);
-  console.log("project ", targetProject);
 
   //render priority
   const renderPriority = (task) => {
@@ -70,107 +76,141 @@ export default function ProjectInfo(props) {
                   <div className="user_tooltip">
                     ID : {user.userId} <br />
                     Name : {user.name} <br />
-                    Email : {user?.email} <br />
-                    Phone : {user?.phoneNumber}
                   </div>
                 </div>
               );
             })}
           </div>
         </div>
+        <div style={{margin: "20px 10px"}}>
+          {" "}
+          <span style={{fontWeight: "bold"}}>Protip</span> : Drag task to
+          arrange
+        </div>
         <div className="task_content row">
-          {arrStatus?.map((status, index) => {
-            return (
-              <div key={index} className="col-3">
-                <div className="task_item">
-                  <div className="task_header">
-                    <h6>
-                      {status.statusName} <span>.</span>
-                    </h6>
-                  </div>
-                  <div className="task_list">
-                    {targetProject?.lstTask.map((taskList, index) => {
-                      return (
-                        taskList.statusId === status.statusId &&
-                        taskList.lstTaskDeTail.map((task, index) => {
-                          return (
-                            <div key={index} className="taskList_item">
-                              <div className="d-flex justify-content-between">
-                                <div className="item-header font-weight-bold">
-                                  {task.taskName}
-                                </div>
-                                {renderPriority(task)}
-                              </div>
-                              <div className="item-content">
-                                {ReactHtmlParser(task.description)}
-                              </div>
-                              <div className="item-footer">
-                                <div>
-                                  {" "}
-                                  <i
-                                    className="fa fa-dumpster"
-                                    onClick={() => {
-                                      dispatch({
-                                        type: REMOVE_TASK_SAGA,
-                                        taskId: task.taskId,
-                                      });
-                                    }}></i>{" "}
-                                  <i
-                                    className="fa fa-pen-square"
-                                    data-toggle="modal"
-                                    data-target="#exampleModalLong"
-                                    onClick={() => {
-                                      dispatch({
-                                        type: MODAL_EDIT,
-                                        editModal: EditTaskModal,
-                                      });
-                                      dispatch({
-                                        type: GET_TASK_DETAIL_SAGA,
-                                        taskId: task.taskId,
-                                      });
-                                    }}></i>{" "}
-                                </div>
-                                <div>
-                                  {" "}
-                                  {task.assigness?.map((user, index) => {
-                                    return (
-                                      <img
-                                        key={index}
-                                        src={user.avatar}
-                                        alt=""
-                                        style={{
-                                          width: "25px",
-                                          borderRadius: "50%",
+          <DragDropContext
+            onDragEnd={(res) => {
+              dispatch({
+                type: UPDATE_TASK_STATUS_SAGA,
+                updateTaskStatus: {
+                  taskId: res.draggableId,
+                  statusId: res.destination.droppableId,
+                },
+                projectId: targetProject.id,
+              });
+            }}>
+            {arrStatus?.map((status, index) => {
+              return (
+                <div key={index} className="col-3">
+                  <div className="task_item">
+                    <div className="task_header">
+                      <h6>
+                        {status.statusName} <span>.</span>
+                      </h6>
+                    </div>
+                    <Droppable droppableId={status.statusId}>
+                      {(provided) => (
+                        <ul
+                          className="task_list pl-0"
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}>
+                          {targetProject?.lstTask.map((taskList, index) => {
+                            return (
+                              taskList.statusId === status.statusId &&
+                              taskList.lstTaskDeTail.map((task, index) => {
+                                return (
+                                  <Draggable
+                                    key={index}
+                                    draggableId={task.taskId.toString()}
+                                    index={index}>
+                                    {(provided) => (
+                                      <li
+                                        data-toggle="modal"
+                                        data-target="#exampleModalLong"
+                                        onClick={() => {
+                                          dispatch({
+                                            type: MODAL_EDIT,
+                                            editModal: EditTaskModal,
+                                          });
+                                          dispatch({
+                                            type: GET_TASK_DETAIL_SAGA,
+                                            taskId: task.taskId,
+                                          });
                                         }}
-                                      />
-                                    );
-                                  })}
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })
-                      );
-                    })}
-                    {/* <div className="taskList_item">
-                      <div className="item-content">Content</div>
-                      <div className="item-footer">
-                        <div>
-                          {" "}
-                          <i className="fa fa-flag"></i>{" "}
-                          <i className="fa fa-arrow-up"></i>{" "}
-                        </div>
-                        <div>
-                          {" "}
-                          <i className="fa fa-user mr-2"></i>
-                        </div>
-                      </div>
-                    </div> */}
-                  </div>
-                </div>{" "}
-              </div>
-            );
-          })}
+                                        className="taskList_item"
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}>
+                                        <div className="d-flex justify-content-between">
+                                          <div className="item-header font-weight-bold">
+                                            {task.taskName}
+                                          </div>
+                                          {renderPriority(task)}
+                                        </div>
+                                        <div className="item-content">
+                                          {ReactHtmlParser(task.description)}
+                                        </div>
+                                        <div className="item-footer">
+                                          <div>
+                                            {" "}
+                                            {/* <i
+                                              className="fa fa-dumpster"
+                                              onClick={() => {
+                                                dispatch({
+                                                  type: REMOVE_TASK_SAGA,
+                                                  taskId: task.taskId,
+                                                });
+                                              }}></i>{" "} */}
+                                            {/* <i
+                                              className="fa fa-pen-square"
+                                              data-toggle="modal"
+                                              data-target="#exampleModalLong"
+                                              onClick={() => {
+                                                dispatch({
+                                                  type: MODAL_EDIT,
+                                                  editModal: EditTaskModal,
+                                                });
+                                                dispatch({
+                                                  type: GET_TASK_DETAIL_SAGA,
+                                                  taskId: task.taskId,
+                                                });
+                                              }}></i>{" "} */}
+                                          </div>
+                                          <div>
+                                            {" "}
+                                            {task.assigness?.map(
+                                              (user, index) => {
+                                                return (
+                                                  <img
+                                                    key={index}
+                                                    src={user.avatar}
+                                                    alt=""
+                                                    style={{
+                                                      width: "25px",
+                                                      borderRadius: "50%",
+                                                    }}
+                                                  />
+                                                );
+                                              }
+                                            )}
+                                          </div>
+                                        </div>
+                                      </li>
+                                    )}
+                                  </Draggable>
+                                );
+                              })
+                            );
+                          })}
+                          {provided.placeholder}
+                        </ul>
+                      )}
+                    </Droppable>
+                  </div>{" "}
+                </div>
+              );
+            })}
+          </DragDropContext>
         </div>
       </div>
     </div>

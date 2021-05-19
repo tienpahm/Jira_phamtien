@@ -1,48 +1,64 @@
-.sideMenu{
-    /* background-color: #fff; */
-    
-    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ) , url(../assets/img//backgroundImg/backgroundSideMenu.jpg) ;
-    background-size: cover;
-    background-position: 50% 50%;
-    height: 100vh;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #fff;
+.sideMenu {
+  /* background-color: #fff; */
+
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(../assets/img//backgroundImg/backgroundSideMenu.jpg);
+  background-size: cover;
+  background-position: 50% 50%;
+  height: 100vh;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
 }
 .sideMenu .name {
-    color: #fff;
+  color: #fff;
 }
 
-.sideMenu_avatar img{
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-left: 19%;
+.sideMenu_avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-left: 19%;
 }
 
 .sideMenu_social {
-    display: flex;
-    justify-content: space-around;
-    font-size: 1.3rem;
-    
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.3rem;
 }
-.sideMenu_items{
-    display: flex;
-    flex-direction: column;
-      
-    align-items: center;
+.sideMenu_items {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
 }
 
 .sideMenu_items div {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
-.sideMenu_items a{ 
-    color: #191919;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color : white
- 
+.sideMenu_items a {
+  color: #191919;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white;
+}
+.btn-signOut {
+  position: relative;
+}
+.btn-signOut:hover .tooltip {
+  opacity: 1;
+}
+.btn-signOut .tooltip {
+  left: 102%;
+}
+.btn-signOut .tooltip::after {
+  top: 22%;
+}
+.btn-signOut a {
+  background-color: transparent;
+  border: none;
+  color: white;
 }

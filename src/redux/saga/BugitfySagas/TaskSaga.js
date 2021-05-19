@@ -1,4 +1,4 @@
-import {call, takeLatest, delay, select, put} from "redux-saga/effects";
+import {call, takeLatest, delay, put} from "redux-saga/effects";
 import {message} from "antd";
 import {taskService} from "../../../services/TaskServices";
 import {STATUS_CODE} from "../../../util/constant/system";
@@ -23,9 +23,11 @@ import {
   GET_ALL_COMMENT_SAGA,
   INSERT_COMMENT_SAGA,
   DELETE_COMMENT_SAGA,
+  UPDATE_COMMENT_SAGA,
+  UPDATE_TASK_STATUS_SAGA,
 } from "../../constant/BugtifyConstant";
 import {notifiFuncion} from "../../../util/notification/notification";
-
+//-------------------status part -------------------
 function* getStatusList() {
   try {
     const {data, status} = yield call(() => {
@@ -44,6 +46,24 @@ function* getStatusList() {
 }
 export function* monitorGetStatusList() {
   yield takeLatest(GET_STATUS_LIST_SAGA, getStatusList);
+}
+
+function* updateTaskStatusSaga(action) {
+  try {
+    const {data, status} = yield call(() => {
+      return taskService.updateStatus(action.updateTaskStatus);
+    });
+
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_PROJECT_DETAIL_SAGA,
+        id: action.projectId,
+      });
+    }
+  } catch (err) {}
+}
+export function* monitorUpdateTaskStatusSaga() {
+  yield takeLatest(UPDATE_TASK_STATUS_SAGA, updateTaskStatusSaga);
 }
 //------------------------------------------------------------
 function* getTaskTypeList() {
@@ -95,7 +115,7 @@ function* createTaskSaga(action) {
     const {data, status} = yield call(() => {
       return taskService.createTask(action.project);
     });
-    console.log("tao task", data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_PROJECT_DETAIL_SAGA,
@@ -116,12 +136,10 @@ export function* monitorCreateTaskSaga() {
 }
 //------------------------------------------------------------
 function* removeTaskSaga(action) {
-  console.log(action.taskId);
   try {
     const {data, status} = yield call(() => {
       return taskService.removeTask(action.taskId);
     });
-    console.log("removetask", data);
 
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
@@ -140,14 +158,9 @@ export function* monitorRemoveTaskSaga() {
 //------------------------------------------------------------
 function* getTaskDetailSaga(action) {
   try {
-    yield put({
-      type: DISPLAY_LOADING,
-    });
-
     const {data, status} = yield call(() => {
       return taskService.getTaskDetail(action.taskId);
     });
-    console.log("task", data);
 
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
@@ -155,10 +168,6 @@ function* getTaskDetailSaga(action) {
         targetTask: data.content,
       });
     }
-
-    yield put({
-      type: HIDE_LOADING,
-    });
   } catch (err) {
     message.error(`${err.response.data.content}`);
   }
@@ -172,7 +181,6 @@ function* updateTaskDetailSaga(action) {
     const {data, status} = yield call(() => {
       return taskService.updateTask(action.taskUpdate);
     });
-    console.log("update", data);
 
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
@@ -186,7 +194,6 @@ function* updateTaskDetailSaga(action) {
     }
   } catch (err) {
     message.error(`${err.response.data.content}`);
-    console.log(err.response.data.content);
   }
 }
 export function* monitorUpdateTaskDetailSaga() {
@@ -198,7 +205,7 @@ function* removeUserFromTaskSaga(action) {
     const {data, status} = yield call(() => {
       return taskService.removeUserFromTask(action.taskRemove);
     });
-    console.log("remove", data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_TASK_DETAIL_SAGA,
@@ -221,7 +228,7 @@ function* getAllCommentSaga(action) {
     const {data, status} = yield call(() => {
       return taskService.getAllCommnetTask(action.taskId);
     });
-    console.log("comment", data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_ALL_COMMENT,
@@ -239,7 +246,7 @@ function* insertCommentSaga(action) {
     const {data, status} = yield call(() => {
       return taskService.insertCommentTask(action.comment);
     });
-    console.log("insert", data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_ALL_COMMENT_SAGA,
@@ -257,7 +264,7 @@ function* deleteCommentSaga(action) {
     const {data, status} = yield call(() => {
       return taskService.deletComment(action.comment.commentId);
     });
-    console.log("delete", data);
+
     if (status === STATUS_CODE.SUCCESS) {
       yield put({
         type: GET_ALL_COMMENT_SAGA,
@@ -268,4 +275,26 @@ function* deleteCommentSaga(action) {
 }
 export function* monitorDeleteCommentSaga() {
   yield takeLatest(DELETE_COMMENT_SAGA, deleteCommentSaga);
+}
+
+//------------------------------------------------------------
+function* updateCommentSaga(action) {
+  try {
+    const {data, status} = yield call(() => {
+      return taskService.updateComment(
+        action.comment.commentId,
+        action.comment.contentComment
+      );
+    });
+
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_ALL_COMMENT_SAGA,
+        taskId: action.comment.taskId,
+      });
+    }
+  } catch (err) {}
+}
+export function* monitorUpdateCommentSaga() {
+  yield takeLatest(UPDATE_COMMENT_SAGA, updateCommentSaga);
 }

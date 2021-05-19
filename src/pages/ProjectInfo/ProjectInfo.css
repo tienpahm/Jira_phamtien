@@ -98,7 +98,8 @@
 }
 
 .task_list {
-  /* padding: 5px; */
+  overflow: auto;
+  max-height: 500px;
 }
 .task_list .taskList_item {
   padding: 10px;
@@ -119,6 +120,12 @@
   display: flex;
   justify-content: space-between;
 }
-.task_list .taskList_item .item-content {
+.task_list .taskList_item .item-content p {
   overflow: hidden;
+
+  max-width: 200px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }

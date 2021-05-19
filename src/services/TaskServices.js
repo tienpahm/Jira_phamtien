@@ -11,6 +11,9 @@ class TaskService extends baseService {
   getStatusList = () => {
     return this.get(`Status/getAll`);
   };
+  updateStatus = (updateTaskStatus) => {
+    return this.put(`Project/updateStatus`, updateTaskStatus);
+  };
   getTaskTypeList = () => {
     return this.get(`TaskType/getAll`);
   };
@@ -40,6 +43,11 @@ class TaskService extends baseService {
   };
   deletComment = (commentId) => {
     return this.delete(`Comment/deleteComment?idComment=${commentId}`);
+  };
+  updateComment = (commentId, contentComment) => {
+    return this.put(
+      `Comment/updateComment?id=${commentId}&contentComment=${contentComment}`
+    );
   };
 }
 export const taskService = new TaskService();

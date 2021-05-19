@@ -4,6 +4,7 @@ import {
   GET_ALL_PROJECT,
   GET_PROJECT_DETAIL,
   UPDATE_ASIGNESS_LIST,
+  UPDATE_TASK_STATUS,
 } from "../../constant/BugtifyConstant";
 
 const initialState = {
