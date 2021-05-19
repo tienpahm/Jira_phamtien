@@ -238,7 +238,7 @@ const CreateTaskForm = withFormik({
   // Custom sync validation
   validationSchema: Yup.object().shape({
     taskName: Yup.string().required("Please Fill in Task Name"),
-    description: Yup.string().required("Please Fill in Task Name"),
+    description: Yup.string().required("Please Fill in Description"),
     // listUserAsign: Yup.string().required("Please Fill in Task Name"),
   }),
 
