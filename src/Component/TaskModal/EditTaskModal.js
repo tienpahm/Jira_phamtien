@@ -48,10 +48,7 @@ function EditTaskModal(props) {
     dispatch({
       type: GET_PRIORITY_LIST_SAGA,
     });
-    dispatch({
-      type: GET_ALL_COMMENT_SAGA,
-      taskId: targetTask?.taskId,
-    });
+
     dispatch({
       type: FUNCTION_SUBMIT,
       functionSubmit: handleSubmit,

@@ -5,6 +5,7 @@ import ReactHtmlParser from "react-html-parser";
 import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 import "./ProjectInfo.css";
 import {
+  GET_ALL_COMMENT_SAGA,
   GET_PROJECT_DETAIL_SAGA,
   GET_STATUS_LIST_SAGA,
   GET_TASK_DETAIL_SAGA,
@@ -134,6 +135,10 @@ export default function ProjectInfo(props) {
                                           });
                                           dispatch({
                                             type: GET_TASK_DETAIL_SAGA,
+                                            taskId: task.taskId,
+                                          });
+                                          dispatch({
+                                            type: GET_ALL_COMMENT_SAGA,
                                             taskId: task.taskId,
                                           });
                                         }}
