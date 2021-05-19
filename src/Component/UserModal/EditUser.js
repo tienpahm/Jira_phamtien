@@ -183,6 +183,7 @@ const EditUserManagementPages = withFormik({
     props.dispatch({
       type: EDIT_USER_SAGA,
       user: values,
+      flag: false,
     });
     setFieldValue("passWord", "");
     setFieldValue("confirmPassword", "");

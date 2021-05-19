@@ -225,6 +225,7 @@ const EditUserPages = withFormik({
     props.dispatch({
       type: EDIT_USER_SAGA,
       user: values,
+      flag: true,
     });
   },
 

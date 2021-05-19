@@ -60,14 +60,20 @@ function* editUserSaga(action) {
 
     if (status === STATUS_CODE.SUCCESS) {
       message.success("Successfully Edit user");
-      localStorage.setItem("USER_LOGIN", JSON.stringify(action.user));
-      yield put({
-        type: CURRENT_USER,
-        currentUser: action.user,
-      });
-      yield put({
-        type: GET_ALL_USER_SAGA,
-      });
+      if (action.flag) {
+        localStorage.setItem("USER_LOGIN", JSON.stringify(action.user));
+        yield put({
+          type: CURRENT_USER,
+          currentUser: action.user,
+        });
+        yield put({
+          type: GET_ALL_USER_SAGA,
+        });
+      } else {
+        yield put({
+          type: GET_ALL_USER_SAGA,
+        });
+      }
     }
   } catch (err) {}
 }
