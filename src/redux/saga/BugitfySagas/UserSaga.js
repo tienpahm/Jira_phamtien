@@ -57,7 +57,7 @@ function* editUserSaga(action) {
     const {data, status} = yield call(() => {
       return useService.editUser(action.user);
     });
-
+    console.log(data);
     if (status === STATUS_CODE.SUCCESS) {
       message.success("Successfully Edit user");
       if (action.flag) {
@@ -75,7 +75,9 @@ function* editUserSaga(action) {
         });
       }
     }
-  } catch (err) {}
+  } catch (err) {
+    console.log(err.response);
+  }
 }
 
 export function* monitorEditUserSaga() {

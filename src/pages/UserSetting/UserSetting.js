@@ -139,7 +139,7 @@ function UserSetting(props) {
                     handleChange(e);
                   }}
                   name="passWord"
-                  placeholder="Enter Password To Confirm"
+                  placeholder="Password"
                   type="password"></input>
                 <div
                   style={{
@@ -153,7 +153,7 @@ function UserSetting(props) {
                   {touched.passWord && errors.passWord}
                 </div>
               </div>
-              {/* <div>
+              <div>
                 <i className="fa fa-lock text-danger"></i>{" "}
                 <input
                   onChange={(e) => {
@@ -174,7 +174,7 @@ function UserSetting(props) {
                   className="errors_password">
                   {touched.confirmPassword && errors.confirmPassword}
                 </div>
-              </div> */}
+              </div>
             </div>
 
             <div className="login_content_right_button text-center">
@@ -195,7 +195,7 @@ const EditUserPages = withFormik({
     return {
       id: currentUser?.id,
       email: currentUser?.email,
-      passWord: currentUser?.passWord,
+      passWord: "",
       name: currentUser?.name,
       phoneNumber: currentUser?.phoneNumber,
       confirmPassword: "",
@@ -224,15 +224,11 @@ const EditUserPages = withFormik({
       .required("Required"),
   }),
   handleSubmit: (values, {props, setSubmitting}) => {
-    if (values.passWord === props.currentUser.passWord) {
-      props.dispatch({
-        type: EDIT_USER_SAGA,
-        user: values,
-        flag: true,
-      });
-    } else {
-      message.error("Wrong Password");
-    }
+    props.dispatch({
+      type: EDIT_USER_SAGA,
+      user: values,
+      flag: true,
+    });
   },
 
   displayName: "SignUpForm",
