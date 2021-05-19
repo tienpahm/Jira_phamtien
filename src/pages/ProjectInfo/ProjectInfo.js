@@ -86,7 +86,7 @@ export default function ProjectInfo(props) {
         <div style={{margin: "20px 10px"}}>
           {" "}
           <span style={{fontWeight: "bold"}}>Protip</span> : Drag task to
-          arrange
+          arrange or use click to edit task
         </div>
         <div className="task_content row">
           <DragDropContext

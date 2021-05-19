@@ -38,7 +38,7 @@ function Login(props) {
             <div>
               <h4 className="text-center pb-2">SIGN IN</h4>
               <div className="mb-2" style={{marginLeft: "16%"}}>
-                <i className="fa fa-user"></i>{" "}
+                <i className="fa fa-envelope"></i>{" "}
                 <input
                   onChange={handleChange}
                   name="email"
