@@ -14,14 +14,12 @@ function* getProjectCategory() {
     const {data, status} = yield call(() => {
       return categoryServices.getProjectCategory();
     });
-    console.log(data);
+
     yield put({
       type: GET_CATEGROY,
       arrCategory: data.content,
     });
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 }
 export function* monitorGetCategorySaga() {
   yield takeLatest(GET_CATEGORY_SAGA, getProjectCategory);

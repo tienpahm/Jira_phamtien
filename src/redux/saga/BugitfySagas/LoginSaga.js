@@ -8,7 +8,11 @@ import {
   takeLatest,
   select,
 } from "redux-saga/effects";
-import {LOGIN_SAGA} from "../../constant/BugtifyConstant";
+import {
+  DISPLAY_LOADING,
+  HIDE_LOADING,
+  LOGIN_SAGA,
+} from "../../constant/BugtifyConstant";
 import Axios from "axios";
 import {
   DOMAIN_BUGTIFY,
@@ -20,6 +24,10 @@ import {history} from "../../../util/history/history";
 import {notifiFuncion} from "../../../util/notification/notification";
 
 function* loginSaga(action) {
+  yield put({
+    type: DISPLAY_LOADING,
+  });
+  yield delay(500);
   try {
     const {data, status} = yield Axios({
       url: `${DOMAIN_BUGTIFY}/Users/signin`,
@@ -30,12 +38,15 @@ function* loginSaga(action) {
       localStorage.setItem(TOKEN, data.content.accessToken);
       localStorage.setItem(USER_LOGIN, JSON.stringify(data.content));
     }
+
     if (localStorage.getItem(TOKEN)) {
       history.push("./projectmanagement");
     }
   } catch (err) {
+    yield put({
+      type: HIDE_LOADING,
+    });
     notifiFuncion("error", "Uncorrect email or password", "Please try again");
-    console.log(err.response.message);
   }
 }
 export function* monitorLoginSaga() {

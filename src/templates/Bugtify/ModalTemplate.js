@@ -27,6 +27,7 @@ const ModalTemplate = (props) => {
             <button
               type="button"
               className="btn btn-primary"
+              data-dismiss="modal"
               onClick={functionSubmit}>
               Submit
             </button>

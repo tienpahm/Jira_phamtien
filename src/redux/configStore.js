@@ -5,6 +5,7 @@ import {LoadingReducer} from "./reducers/BugtifyReducers/LoadingReducer";
 import {UserReducer} from "./reducers/BugtifyReducers/UserReducer";
 import {ModalReducer} from "./reducers/BugtifyReducers/ModalReducer";
 import {CategoryReducer} from "./reducers/BugtifyReducers/CategoryReducer";
+import {TaskReducer} from "./reducers/BugtifyReducers/TaskReducer";
 //middleware saga
 import createMiddleWareSaga from "redux-saga";
 import {rootSaga} from "./saga/rootSaga";
@@ -16,14 +17,14 @@ const rootReducer = combineReducers({
   LoginReducer,
   LoadingReducer,
   ModalReducer,
-  //Category reducer
+
   CategoryReducer,
 
-  //Project reducer
   ProjectReducer,
 
-  //UserReducer
   UserReducer,
+
+  TaskReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(middleWareSage));

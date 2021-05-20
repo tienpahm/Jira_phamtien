@@ -1,0 +1,119 @@
+.editTask_taskName {
+  font-size: 1.5rem;
+  font-weight: 500;
+  background-color: #1919196b;
+}
+.editTask_description > div {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.editTask_content .title {
+  font-weight: 500;
+  display: inline-block;
+  margin: 10px 0 5px;
+}
+.assignees_avatar {
+  background-color: #fff;
+  display: inline-block;
+  border: 1px solid #7149fc;
+  border-radius: 5px;
+  padding: 5px 0;
+}
+
+.assignees_avatar img {
+  width: 30px;
+  border-radius: 50%;
+}
+.assignees_avatar button,
+.assignees_avatar button:focus {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  transform: translateX(5%);
+}
+.comment-block {
+  margin: 20px 0;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.editTask_comment .comment_content {
+  margin-top: 10px;
+}
+.editTask_comment .comment_content .comment_avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.editTask_comment .comment_content .comment_detail {
+  border-radius: 10px;
+  background-color: #d2e5fe;
+  padding: 5px;
+}
+.editTask_comment .comment_content .comment_detail p {
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.comment_button {
+  margin-top: 10px;
+}
+.btn-save {
+  width: 50px;
+  height: 30px;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  background-color: #0069d9;
+  color: white;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+.btn-cancel {
+  width: auto;
+  height: 30px;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  background-color: transparent;
+  border-radius: 5px;
+  margin-right: 5px;
+  transition: 0.3s;
+}
+
+.btn-cancel:hover {
+  background-color: #efefef;
+}
+
+.btn-delete,
+.btn-edit {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: auto;
+  height: auto;
+  font-size: 0.8rem;
+}
+.comment-placeholder {
+  padding: 10px;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #949dac;
+  border-radius: 5px;
+  font-weight: 500;
+  color: #949dac;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.comment-placeholder:hover {
+  border-color: rgb(83, 83, 83);
+}
+.inputComment {
+  background-color: #f4f5f7;
+}
+.inputComment:focus {
+  background-color: #fff;
+}

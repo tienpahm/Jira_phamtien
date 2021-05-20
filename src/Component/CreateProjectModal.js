@@ -30,14 +30,13 @@ export default function CreateProjectModal() {
 
   const handleChange = (e) => {
     let {name, value} = e.target;
-    console.log(project);
+
     setProject({
       ...project,
       [name]: value,
     });
   };
   const handleSubmit = (e) => {
-    console.log(project);
     e.preventDefault();
     if (!project.projectName) {
       return false;

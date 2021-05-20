@@ -1,0 +1,43 @@
+.user-settings {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.user-settings-content {
+  min-width: 50%;
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+}
+.user-settings-content-inf {
+  text-align: center;
+}
+.user-settings-content-info img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.user-social .sideMenu_social {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.user-social .sideMenu_social p {
+  margin-top: 15px;
+  margin-bottom: 0;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-social .sideMenu_social p span {
+  font-size: 1rem;
+}
+.user-settings-content-form input {
+  width: 90%;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  outline: none;
+}
