@@ -116,6 +116,9 @@ export default function UserManagement() {
           .
         </span>
       </h3>
+      <div>
+        <h5> User Management</h5>
+      </div>
       <Table dataSource={arrUser} columns={columns} rowKey="userId" />
     </div>
   );

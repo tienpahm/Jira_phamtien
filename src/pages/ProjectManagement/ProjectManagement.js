@@ -13,6 +13,7 @@ import {
   GET_ALL_PROJECT_SAGA,
   GET_ALL_USER_SAGA,
   GET_CATEGORY_SAGA,
+  HIDE_LOADING,
   MODAL_EDIT,
   TRIGGER_CREATE_TASK,
 } from "../../redux/constant/BugtifyConstant";
@@ -21,6 +22,7 @@ export default function ProjectManagement(props) {
   const dispatch = useDispatch();
   //data collect from redux
   const {arrProject} = useSelector((state) => state.ProjectReducer);
+  const arrProjectReverse = arrProject.reverse();
   const {arrUser} = useSelector((state) => state.UserReducer);
   //control component state
   const [value, setValue] = useState("");
@@ -44,6 +46,9 @@ export default function ProjectManagement(props) {
     dispatch({
       type: CURRENT_USER,
       currentUser: JSON.parse(localStorage.getItem("USER_LOGIN")),
+    });
+    dispatch({
+      type: HIDE_LOADING,
     });
   }, []);
 
@@ -265,14 +270,17 @@ export default function ProjectManagement(props) {
           .
         </span>
       </h3>
-      <div style={{margin: "20px 10px"}}>
+      <div>
+        <h5>Project Management</h5>
+      </div>
+      <div style={{margin: "20px 0"}}>
         {" "}
         <span style={{fontWeight: "bold"}}>Protip</span> : You only allow to
         make change on your project
       </div>
       <Table
         columns={columns}
-        dataSource={arrProject}
+        dataSource={arrProjectReverse}
         onChange={onChange}
         rowKey="id"
       />
